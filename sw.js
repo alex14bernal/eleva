@@ -1,4 +1,4 @@
-const CACHE = 'eleva-v1';
+const CACHE = 'eleva-v2';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-maskable.svg'];
 
 self.addEventListener('install', e => {
@@ -11,18 +11,16 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+// Network-first: siempre intenta la versión más nueva; si no hay internet, usa la copia guardada.
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      const network = fetch(e.request).then(resp => {
-        if (resp && resp.status === 200 && resp.type === 'basic') {
-          const copy = resp.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copy));
-        }
-        return resp;
-      }).catch(() => cached || caches.match('./index.html'));
-      return cached || network;
-    })
+    fetch(e.request).then(resp => {
+      if (resp && resp.status === 200 && resp.type === 'basic') {
+        const copy = resp.clone();
+        caches.open(CACHE).then(c => c.put(e.request, copy));
+      }
+      return resp;
+    }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
   );
 });

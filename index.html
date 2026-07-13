@@ -361,22 +361,73 @@ const I={
 function svg(name,cls){return '<svg class="icon '+(cls||'')+'" viewBox="0 0 24 24">'+I[name]+'</svg>';}
 const YT=q=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
 
-/* ===== Estiramientos (compartidos) ===== */
-const STRETCH_PRE=[
-  {n:'Movilidad de tobillo (rodilla a la pared)',d:'10 x lado',q:'movilidad de tobillo rodilla a la pared ejercicio'},
-  {n:'Balanceo de piernas (frontal y lateral)',d:'10 x lado',q:'balanceo de piernas calentamiento dinamico'},
-  {n:'Sentadilla profunda con movilidad',d:'30 s',q:'sentadilla profunda movilidad de cadera'},
-  {n:'Zancada con rotación (world’s greatest)',d:'5 x lado',q:'worlds greatest stretch tecnica'},
-  {n:'Círculos de cadera y rodillas',d:'8 x lado',q:'movilidad articular cadera calentamiento'},
-];
-const STRETCH_POST=[
-  {n:'Estiramiento de cuádriceps',d:'30 s x pierna',q:'estiramiento de cuadriceps tecnica'},
-  {n:'Estiramiento de isquiotibiales (femoral)',d:'30 s x pierna',q:'estiramiento de isquiotibiales femoral'},
-  {n:'Estiramiento de glúteo (figura 4)',d:'30 s x lado',q:'estiramiento de gluteo figura 4'},
-  {n:'Estiramiento de gemelo en pared',d:'30 s x pierna',q:'estiramiento de gemelo en pared'},
-  {n:'Estiramiento de flexores de cadera',d:'30 s x lado',q:'estiramiento flexores de cadera psoas'},
-  {n:'Estiramiento de espalda y dorsales',d:'30 s',q:'estiramiento de espalda dorsales'},
-];
+/* ===== Estiramientos por día (acordes a lo que se entrena) ===== */
+const STRETCH_BY_DAY={
+  0:{ /* Día 1 · Fuerza tren inferior */
+    pre:[
+      {n:'Movilidad de tobillo (rodilla a la pared)',d:'10 x lado',q:'movilidad de tobillo rodilla a la pared'},
+      {n:'Balanceo de piernas (frontal y lateral)',d:'10 x lado',q:'balanceo de piernas calentamiento dinamico'},
+      {n:'Sentadilla profunda con movilidad',d:'30 s',q:'sentadilla profunda movilidad de cadera'},
+      {n:'Puente de glúteo (activación)',d:'12 reps',q:'puente de gluteo activacion'},
+      {n:'Círculos de cadera',d:'8 x lado',q:'circulos de cadera movilidad'},
+    ],
+    post:[
+      {n:'Cuádriceps',d:'30 s x pierna',q:'estiramiento de cuadriceps tecnica'},
+      {n:'Isquiotibiales (femoral)',d:'30 s x pierna',q:'estiramiento de isquiotibiales femoral'},
+      {n:'Glúteo (figura 4)',d:'30 s x lado',q:'estiramiento de gluteo figura 4'},
+      {n:'Gemelo en pared',d:'30 s x pierna',q:'estiramiento de gemelo en pared'},
+      {n:'Flexores de cadera (psoas)',d:'30 s x lado',q:'estiramiento flexores de cadera psoas'},
+      {n:'Aductores (mariposa)',d:'30 s',q:'estiramiento de aductores mariposa'},
+    ]},
+  1:{ /* Día 2 · Potencia y salto */
+    pre:[
+      {n:'Movilidad de tobillo',d:'10 x lado',q:'movilidad de tobillo rodilla a la pared'},
+      {n:'Skips y talones al glúteo',d:'20 s',q:'skips y talones al gluteo tecnica'},
+      {n:'Saltos suaves (pogo)',d:'15 reps',q:'pogo jumps pliometria calentamiento'},
+      {n:'Balanceo de piernas',d:'10 x lado',q:'balanceo de piernas calentamiento dinamico'},
+      {n:'Sentadilla con salto suave',d:'8 reps',q:'jump squat suave activacion'},
+    ],
+    post:[
+      {n:'Gemelo y sóleo en pared',d:'30 s x pierna',q:'estiramiento de gemelo y soleo'},
+      {n:'Cuádriceps',d:'30 s x pierna',q:'estiramiento de cuadriceps tecnica'},
+      {n:'Isquiotibiales (femoral)',d:'30 s x pierna',q:'estiramiento de isquiotibiales femoral'},
+      {n:'Glúteo (figura 4)',d:'30 s x lado',q:'estiramiento de gluteo figura 4'},
+      {n:'Planta del pie (rodar pelota)',d:'30 s x pie',q:'masaje fascia plantar con pelota'},
+    ]},
+  2:{ /* Día 3 · Fuerza tren superior + core */
+    pre:[
+      {n:'Círculos de escápula y hombro',d:'10 reps',q:'movilidad de escapula y hombro'},
+      {n:'Rotación torácica',d:'8 x lado',q:'rotacion toracica movilidad'},
+      {n:'Dislocaciones de hombro con banda o palo',d:'10 reps',q:'dislocaciones de hombro con banda'},
+      {n:'Face pull con banda (activación)',d:'15 reps',q:'face pull con banda activacion'},
+      {n:'Gato–camello (columna)',d:'8 reps',q:'ejercicio gato camello columna'},
+    ],
+    post:[
+      {n:'Pectoral en marco de puerta',d:'30 s x lado',q:'estiramiento de pectoral en puerta'},
+      {n:'Dorsal (lat)',d:'30 s x lado',q:'estiramiento de dorsal lat'},
+      {n:'Tríceps sobre la cabeza',d:'30 s x brazo',q:'estiramiento de triceps sobre la cabeza'},
+      {n:'Hombro cruzado',d:'30 s x brazo',q:'estiramiento de hombro cruzado'},
+      {n:'Cuello y trapecio',d:'30 s x lado',q:'estiramiento de cuello y trapecio'},
+      {n:'Columna (postura del niño)',d:'30 s',q:'postura del niño estiramiento espalda'},
+    ]},
+  3:{ /* Día 4 · Cardio, HIIT y agilidad */
+    pre:[
+      {n:'Caminadora suave',d:'3–5 min',q:'trote suave calentamiento caminadora'},
+      {n:'Movilidad de tobillo y cadera',d:'10 x lado',q:'movilidad de tobillo y cadera'},
+      {n:'Balanceo de piernas',d:'10 x lado',q:'balanceo de piernas calentamiento dinamico'},
+      {n:'Rotación torácica',d:'8 x lado',q:'rotacion toracica movilidad'},
+      {n:'Sentadillas y desplantes suaves',d:'10 reps',q:'sentadillas y desplantes calentamiento'},
+    ],
+    post:[
+      {n:'Gemelo en pared',d:'30 s x pierna',q:'estiramiento de gemelo en pared'},
+      {n:'Cuádriceps',d:'30 s x pierna',q:'estiramiento de cuadriceps tecnica'},
+      {n:'Isquiotibiales (femoral)',d:'30 s x pierna',q:'estiramiento de isquiotibiales femoral'},
+      {n:'Flexores de cadera (psoas)',d:'30 s x lado',q:'estiramiento flexores de cadera psoas'},
+      {n:'Glúteo (figura 4)',d:'30 s x lado',q:'estiramiento de gluteo figura 4'},
+      {n:'Costado del tronco',d:'30 s x lado',q:'estiramiento lateral de tronco'},
+    ]},
+};
+function dayStretch(kind){const s=STRETCH_BY_DAY[S.selDay]||STRETCH_BY_DAY[0];return s[kind]||[];}
 
 const PROGRAM=[
   {id:0,dia:'Día 1',foco:'Fuerza · Tren inferior',obj:'Base de fuerza para saltar más alto, aguantar contacto y no caer.',
@@ -409,15 +460,15 @@ const PROGRAM=[
      {n:'Face pull',s:3,r:'15',d:'60 s',cue:'Codos altos, aprieta atrás. Salud de hombro para no lesionarte.',q:'face pull tecnica hombro'},
      {n:'Rueda abdominal (o plancha con peso)',s:3,r:'8',d:'60 s',cue:'Anti-extensión: un core que aguanta empujes y te da estabilidad.',q:'rueda abdominal ab wheel tecnica'},
    ]},
-  {id:3,dia:'Día 4',foco:'Velocidad, agilidad y resistencia',obj:'Primer paso, cambio de ritmo, llegar a tiempo en defensa y no cansarte.',
-   calent:'8 min: movilidad dinámica + técnica de carrera (skips, talones al glúteo) + 3 aceleraciones progresivas.',
+  {id:3,dia:'Día 4',foco:'Cardio, HIIT y agilidad',obj:'Resistencia de partido, primer paso y agilidad usando lo que hay en el gym (sin cancha ni pista).',
+   calent:'Caminadora suave 5 min + movilidad dinámica de tobillo y cadera.',
    ejercicios:[
-     {n:'Aceleraciones 15–20 m',s:6,r:'1 sprint',d:'caminar la vuelta',cue:'Primer paso explosivo, cuerpo inclinado al arrancar. Trabaja tu salida.',q:'tecnica de aceleracion primer paso velocidad'},
-     {n:'Desplazamiento defensivo lateral',s:6,r:'20 s',d:'40 s',cue:'Cadera baja, pasos cortos y rápidos, sin cruzar los pies. Llega a tiempo.',q:'desplazamiento defensivo baloncesto ejercicios'},
-     {n:'Escalera de agilidad',s:5,r:'1 patrón',d:'45 s',cue:'Pies rápidos y coordinados, mirada al frente. Mejora la torpeza.',q:'escalera de agilidad ejercicios baloncesto'},
-     {n:'Cambio de dirección 5-10-5',s:6,r:'1',d:'90 s',cue:'Frena, planta el pie y reacelera. Es tu doble ritmo y tus cortes.',q:'5-10-5 pro agility drill tecnica'},
-     {n:'Cambios de ritmo con balón',s:4,r:'1 largo',d:'60 s',cue:'Alterna lento–rápido para superar al defensor sin perder control.',q:'cambio de ritmo baloncesto ejercicio dribling'},
-     {n:'Sprints de cancha (suicidios)',s:7,r:'1',d:'60–90 s',cue:'Resistencia específica: aguanta el ritmo de partido hasta el final.',q:'suicidios baloncesto resistencia conditioning'},
+     {n:'HIIT en caminadora',s:1,r:'8–10 rondas',d:'30 s fuerte / 60 s suave',cue:'Alterna esfuerzo alto y trote suave. Construye la resistencia para aguantar todo el partido.',q:'hiit en caminadora principiantes'},
+     {n:'Sprint en caminadora con inclinación',s:8,r:'20 s',d:'40 s descanso',cue:'Inclinación 4–6%. Entrena el primer paso y la potencia sin necesitar cancha.',q:'sprints en caminadora con inclinacion'},
+     {n:'Saltos de patinador (skater)',s:4,r:'30 s',d:'40 s',cue:'Salta lateral de pie a pie en la colchoneta, aterriza estable. Agilidad y fuerza para defender.',q:'skater jumps saltos de patinador tecnica'},
+     {n:'Desplazamiento defensivo (en el sitio)',s:6,r:'20 s',d:'40 s',cue:'Cadera baja, pasos cortos y rápidos, sin cruzar los pies. Funciona en poco espacio.',q:'desplazamiento defensivo baloncesto en casa'},
+     {n:'Pies rápidos en el sitio',s:5,r:'30 s',d:'30 s',cue:'Pies rápidos como escalera imaginaria, mirada al frente. Coordinación contra la torpeza.',q:'ejercicios de pies rapidos agilidad'},
+     {n:'Burpees o mountain climbers',s:4,r:'30 s',d:'40 s',cue:'Cuerpo completo a ritmo alto. Resistencia específica cuando no hay dónde correr.',q:'burpees tecnica principiantes'},
    ]},
 ];
 
@@ -547,7 +598,7 @@ function recentList(n){
   return `<div class="card" style="padding:4px 16px">${S.historial.slice(0,n).map(logRow).join('')}</div>`;}
 
 function stretchBlock(kind){
-  const list=kind==='pre'?STRETCH_PRE:STRETCH_POST;
+  const list=dayStretch(kind);
   const title=kind==='pre'?'Estiramientos previos':'Estiramientos posteriores';
   const sub=kind==='pre'?'Dinámicos · prepara el cuerpo antes de entrenar':'Estáticos · para recuperar después del entreno';
   const ic=kind==='pre'?'stretch':'stretch';
@@ -822,8 +873,8 @@ function buildPhases(list,kind){const work=kind==='pre'?20:30,change=kind==='pre
     else{phases.push({name:s.n,sub:'Mantén la posición',secs:work,type:'work'});}
     if(i<list.length-1)phases.push({name:'Transición',sub:'Prepárate para el siguiente',secs:change,type:'change'});});
   return phases;}
-function startTimer(kind){const list=kind==='pre'?STRETCH_PRE:STRETCH_POST;runPhases(buildPhases(list,kind));}
-function startTimerOne(kind,idx){const list=kind==='pre'?STRETCH_PRE:STRETCH_POST;runPhases(buildPhases([list[idx]],kind));}
+function startTimer(kind){runPhases(buildPhases(dayStretch(kind),kind));}
+function startTimerOne(kind,idx){runPhases(buildPhases([dayStretch(kind)[idx]],kind));}
 function runPhases(phases){if(!phases.length)return;T.phases=phases;T.idx=0;T.paused=false;beep();document.getElementById('timer').classList.add('open');startPhase();}
 function startPhase(){const p=T.phases[T.idx];if(!p){finishTimer();return;}T.left=p.secs;
   beep(p.type==='change'?2:1,p.type==='change'?660:880);drawTimer();
