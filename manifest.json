@@ -1,0 +1,16 @@
+{
+  "name": "ELEVA · Rendimiento para baloncesto",
+  "short_name": "ELEVA",
+  "description": "Tu app de entrenamiento de baloncesto: rutina, salto, cardio, retos y progreso.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E0F13",
+  "theme_color": "#0E0F13",
+  "lang": "es",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
